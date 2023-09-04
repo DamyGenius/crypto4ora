@@ -24,7 +24,7 @@ crypto4ora provides simple and enhanced asymmetric cryptography capability in Or
 
 ## Installation Guideline
 
-Download the zip [crypto4ora](https://github.com/atul19971/crypto4ora/tree/master/zip) which contains `crypto4ora.jar` and `crypto4ora.sql`.
+Download the zip [crypto4ora](https://github.com/DamyGenius/crypto4ora/tree/master/zip) which contains `crypto4ora.jar` and `crypto4ora.sql`.
 
 If you need to compile Java files an generate new .jar, execute commands inside root folder of package.
 ```
@@ -40,7 +40,7 @@ loadjava -f -verbose -oracleresolver -resolve -oci8 -u user/password@service cry
 ```
 
 ### SQL Script
-Once loadjava command executed successfully run the script [crypto4ora.sql]( https://github.com/atul19971/crypto4ora/blob/master/sql/crypto4ora.sql) in your required schema.
+Once loadjava command executed successfully run the script [crypto4ora.sql]( https://github.com/DamyGenius/crypto4ora/blob/master/sql/crypto4ora.sql) in your required schema.
 
 ## Usage
 
