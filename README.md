@@ -26,6 +26,12 @@ crypto4ora provides simple and enhanced asymmetric cryptography capability in Or
 
 Download the zip [crypto4ora](https://github.com/atul19971/crypto4ora/tree/master/zip) which contains `crypto4ora.jar` and `crypto4ora.sql`.
 
+If you need to compile Java files an generate new .jar, execute commands inside root folder of package.
+```
+javac --release 8 com/dishtavar/crypto4ora/Base64.java com/dishtavar/crypto4ora/Client.java com/dishtavar/crypto4ora/CryptoHelper.java com/dishtavar/crypto4ora/GenerateKey.java com/dishtavar/crypto4ora/RSAUtil.java
+
+jar -cf crypto4ora.jar com/dishtavar/crypto4ora/Base64.class com/dishtavar/crypto4ora/Client.class com/dishtavar/crypto4ora/CryptoHelper.class com/dishtavar/crypto4ora/GenerateKey.class com/dishtavar/crypto4ora/RSAUtil.class
+```
 
 ### Command Execution
 Execute below command for loading the `crypto4ora.jar` in oracle DB.

@@ -4,10 +4,13 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.OAEPParameterSpec;
+import javax.crypto.spec.PSource;
 
 /**
  * 
@@ -16,6 +19,7 @@ import javax.crypto.Cipher;
  */
 public class RSAUtil {
 	private static final String ALGORITHM = "RSA";
+	private static final String ALGORITHM_CIPHER = "RSA/ECB/OAEPPadding";
 
 	public static String encrypt(String valueToEncrypt, String publicKey) throws Exception {
 		byte[] publicKeyByteArr = Base64.decode(publicKey);
@@ -32,6 +36,27 @@ public class RSAUtil {
 		byte[] valueToDecryptBArr = Base64.decode(valueToDecrypt);
 		Cipher cipher = Cipher.getInstance(ALGORITHM);
 		cipher.init(Cipher.PRIVATE_KEY, key);
+		byte[] decryptedBytes = cipher.doFinal(valueToDecryptBArr);
+		return CryptoHelper.getStringFromByte(decryptedBytes);
+	}
+
+	public static String encryptRSAOAEPWithSHA256(String valueToEncrypt, String publicKey) throws Exception {
+		byte[] publicKeyByteArr = Base64.decode(publicKey);
+		PublicKey key = KeyFactory.getInstance(ALGORITHM).generatePublic(new X509EncodedKeySpec(publicKeyByteArr));
+		Cipher cipher = Cipher.getInstance(ALGORITHM_CIPHER);
+		OAEPParameterSpec oaepParams = new OAEPParameterSpec("SHA-256", "MGF1", new MGF1ParameterSpec("SHA-256"), PSource.PSpecified.DEFAULT);
+		cipher.init(Cipher.PUBLIC_KEY, key, oaepParams);
+		byte[] encryptedBytes = cipher.doFinal(valueToEncrypt.getBytes());
+		return Base64.encode(encryptedBytes);
+	}
+
+	public static String decryptRSAOAEPWithSHA256(String valueToDecrypt, String privateKey) throws Exception {
+		byte[] privateByteArr = Base64.decode(privateKey);
+		PrivateKey key = KeyFactory.getInstance(ALGORITHM).generatePrivate(new PKCS8EncodedKeySpec(privateByteArr));
+		byte[] valueToDecryptBArr = Base64.decode(valueToDecrypt);
+		Cipher cipher = Cipher.getInstance(ALGORITHM_CIPHER);
+		OAEPParameterSpec oaepParams = new OAEPParameterSpec("SHA-256", "MGF1", new MGF1ParameterSpec("SHA-256"), PSource.PSpecified.DEFAULT);
+		cipher.init(Cipher.PRIVATE_KEY, key, oaepParams);
 		byte[] decryptedBytes = cipher.doFinal(valueToDecryptBArr);
 		return CryptoHelper.getStringFromByte(decryptedBytes);
 	}
